@@ -12,9 +12,15 @@ namespace ZoomDrive.web.Controllers
             _context = context;
         }
         // GET: ArquivosController
-        public ActionResult Index()
+        public ActionResult Index(string tipo)
         {
-            return View();
+            var arquivos = _context.Arquivos.AsQueryable();
+            if(tipo != "")
+            {
+                arquivos = arquivos.Where(a => a.Extensao.Contains(tipo));
+            }
+
+            return View(arquivos.OrderByDescending(a => a.DataUpload).ToList());
         }
 
     }
