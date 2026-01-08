@@ -49,5 +49,32 @@ namespace ZoomDrive.web.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Download(int id)
+        {
+            var arquivo = _context.Arquivos.Find(id);
+            if(arquivo == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return File(arquivo.ArquivoBytes, arquivo.TipoMime, $"{arquivo.NomeArquivo}.{arquivo.Extensao}");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var arquivo = _context.Arquivos.Find(id);
+            if(arquivo == null)
+            {
+                return Json(new { success = false});
+            }
+
+            _context.Arquivos.Remove(arquivo);
+            _context.SaveChanges();
+            return Json(new { success = true});
+        }
+
     }
 }
