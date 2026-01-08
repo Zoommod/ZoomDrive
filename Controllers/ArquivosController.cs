@@ -17,7 +17,7 @@ namespace ZoomDrive.web.Controllers
         {
             ViewBag.TipoFiltro = tipo;
             var arquivos = _context.Arquivos.AsQueryable();
-            if(tipo != "")
+            if(tipo != "" && tipo != null)
             {
                 arquivos = arquivos.Where(a => a.Extensao.Contains(tipo));
             }
